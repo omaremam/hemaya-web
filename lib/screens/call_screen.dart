@@ -21,7 +21,6 @@ class _CallScreenState extends State<CallScreen> {
   final socket = SignallingService.instance.socket;
 
   // videoRenderer for localPeer
-  final _localRTCVideoRenderer = RTCVideoRenderer();
 
   // videoRenderer for remotePeer
   final _remoteRTCVideoRenderer = RTCVideoRenderer();
@@ -35,13 +34,9 @@ class _CallScreenState extends State<CallScreen> {
   // list of rtcCandidates to be sent over signalling
   List<RTCIceCandidate> rtcIceCadidates = [];
 
-  // media status
-  bool isAudioOn = true, isVideoOn = true, isFrontCameraSelected = true;
-
   @override
   void initState() {
     // initializing renderers
-    _localRTCVideoRenderer.initialize();
     _remoteRTCVideoRenderer.initialize();
 
     // setup Peer Connection
@@ -75,21 +70,7 @@ class _CallScreenState extends State<CallScreen> {
       setState(() {});
     };
 
-    // get localStream
-    _localStream = await navigator.mediaDevices.getUserMedia({
-      'audio': isAudioOn,
-      'video': isVideoOn
-          ? {'facingMode': isFrontCameraSelected ? 'user' : 'environment'}
-          : false,
-    });
-
-    // add mediaTrack to peerConnection
-    _localStream!.getTracks().forEach((track) {
-      _rtcPeerConnection!.addTrack(track, _localStream!);
-    });
-
     // set source for local video renderer
-    _localRTCVideoRenderer.srcObject = _localStream;
     setState(() {});
 
     // for Incoming call
@@ -172,94 +153,23 @@ class _CallScreenState extends State<CallScreen> {
     Navigator.pop(context);
   }
 
-  _toggleMic() {
-    // change status
-    isAudioOn = !isAudioOn;
-    // enable or disable audio track
-    _localStream?.getAudioTracks().forEach((track) {
-      track.enabled = isAudioOn;
-    });
-    setState(() {});
-  }
-
-  _toggleCamera() {
-    // change status
-    isVideoOn = !isVideoOn;
-
-    // enable or disable video track
-    _localStream?.getVideoTracks().forEach((track) {
-      track.enabled = isVideoOn;
-    });
-    setState(() {});
-  }
-
-  _switchCamera() {
-    // change status
-    isFrontCameraSelected = !isFrontCameraSelected;
-
-    // switch camera
-    _localStream?.getVideoTracks().forEach((track) {
-      // ignore: deprecated_member_use
-      track.switchCamera();
-    });
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text("P2P Call App"),
+        title: const Text("Hemaya Stream Viewer"),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-              child: Stack(children: [
-                RTCVideoView(
-                  _remoteRTCVideoRenderer,
-                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                ),
-                Positioned(
-                  right: 20,
-                  bottom: 20,
-                  child: SizedBox(
-                    height: 150,
-                    width: 120,
-                    child: RTCVideoView(
-                      _localRTCVideoRenderer,
-                      mirror: isFrontCameraSelected,
-                      objectFit:
-                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                    ),
-                  ),
-                )
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(isAudioOn ? Icons.mic : Icons.mic_off),
-                    onPressed: _toggleMic,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.call_end),
-                    iconSize: 30,
-                    onPressed: _leaveCall,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.cameraswitch),
-                    onPressed: _switchCamera,
-                  ),
-                  IconButton(
-                    icon: Icon(isVideoOn ? Icons.videocam : Icons.videocam_off),
-                    onPressed: _toggleCamera,
-                  ),
-                ],
+            Container(
+              alignment: Alignment.centerLeft,
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: RTCVideoView(
+                _remoteRTCVideoRenderer,
+                objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
               ),
             ),
           ],
@@ -270,7 +180,6 @@ class _CallScreenState extends State<CallScreen> {
 
   @override
   void dispose() {
-    _localRTCVideoRenderer.dispose();
     _remoteRTCVideoRenderer.dispose();
     _localStream?.dispose();
     _rtcPeerConnection?.dispose();

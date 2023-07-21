@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hemayaweb/screens/login_screen.dart';
 import 'screens/join_screen.dart';
 import 'services/signalling.service.dart';
 
@@ -16,8 +17,7 @@ class VideoCallApp extends StatelessWidget {
   final String websocketUrl = "http://13.36.63.83:5000";
 
   // generate callerID of local user
-  final String selfCallerID =
-      Random().nextInt(999999).toString().padLeft(6, '0');
+  final String selfCallerID = "1234";
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class VideoCallApp extends StatelessWidget {
         colorScheme: const ColorScheme.dark(),
       ),
       themeMode: ThemeMode.dark,
-      home: JoinScreen(selfCallerId: selfCallerID),
+      home: const LoginScreen(),
     );
   }
 }
