@@ -30,9 +30,11 @@ class _JoinScreenState extends State<JoinScreen> {
           incomingSDPOffer = data;
           if (incomingSDPOffer != null) {
             _joinCall(
-              callerId: incomingSDPOffer["callerId"]!,
-              offer: incomingSDPOffer["sdpOffer"],
-            );
+                callerId: incomingSDPOffer["callerId"]!,
+                offer: incomingSDPOffer["sdpOffer"],
+                name: incomingSDPOffer["name"],
+                latitude: incomingSDPOffer["lat"],
+                longitude: incomingSDPOffer["long"]);
           }
         });
       }
@@ -42,6 +44,9 @@ class _JoinScreenState extends State<JoinScreen> {
   // join Call
   _joinCall({
     required String callerId,
+    required String name,
+    required double latitude,
+    required double longitude,
     dynamic offer,
   }) {
     Navigator.push(
@@ -51,6 +56,9 @@ class _JoinScreenState extends State<JoinScreen> {
           callerId: callerId,
           calleeId: "1234",
           offer: offer,
+          lat: latitude,
+          long: longitude,
+          name: name,
         ),
       ),
     );

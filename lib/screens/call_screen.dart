@@ -4,12 +4,17 @@ import '../services/signalling.service.dart';
 
 class CallScreen extends StatefulWidget {
   final String callerId, calleeId;
+  final double lat, long;
+  final String name;
   final dynamic offer;
   const CallScreen({
     super.key,
     this.offer,
     required this.callerId,
     required this.calleeId,
+    required this.lat,
+    required this.long,
+    required this.name,
   });
 
   @override
@@ -161,17 +166,39 @@ class _CallScreenState extends State<CallScreen> {
         title: const Text("Hemaya Stream Viewer"),
       ),
       body: SafeArea(
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.9,
               child: RTCVideoView(
                 _remoteRTCVideoRenderer,
                 objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
               ),
             ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width * 0.25,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [Text("Name"), Text("${widget.name}")],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [Text("Latitude"), Text("${widget.lat}")],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [Text("Longitude"), Text("${widget.long}")],
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
