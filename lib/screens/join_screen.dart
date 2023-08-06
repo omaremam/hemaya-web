@@ -21,13 +21,18 @@ class _JoinScreenState extends State<JoinScreen> {
   void initState() {
     super.initState();
 
+    print("Incoming sdp offer");
+    print(incomingSDPOffer);
+
     document.documentElement?.requestFullscreen();
     // listen for incoming video call
     SignallingService.instance.socket!.on("newCall", (data) {
+      print(data);
       if (mounted) {
         // set SDP Offer of incoming call
         setState(() {
           incomingSDPOffer = data;
+          print("Data ${incomingSDPOffer["sdpOffer"]}");
           if (incomingSDPOffer != null) {
             _joinCall(
                 callerId: incomingSDPOffer["callerId"]!,
@@ -49,6 +54,7 @@ class _JoinScreenState extends State<JoinScreen> {
     required double longitude,
     dynamic offer,
   }) {
+    print("look here ${callerId} ${offer} ${latitude} ${longitude}");
     Navigator.push(
       context,
       MaterialPageRoute(

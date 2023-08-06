@@ -42,6 +42,8 @@ class _CallScreenState extends State<CallScreen> {
   @override
   void initState() {
     // initializing renderers
+    print("${widget.offer} THIS IS THE OFFER");
+
     _remoteRTCVideoRenderer.initialize();
 
     // setup Peer Connection
@@ -68,15 +70,15 @@ class _CallScreenState extends State<CallScreen> {
         }
       ]
     });
+    print("sajkdnkjasdnkjasdnkjadsnjkadsnkjn");
+    print(_rtcPeerConnection);
 
     // listen for remotePeer mediaTrack event
     _rtcPeerConnection!.onTrack = (event) {
+      print(event);
       _remoteRTCVideoRenderer.srcObject = event.streams[0];
       setState(() {});
     };
-
-    // set source for local video renderer
-    setState(() {});
 
     // for Incoming call
     if (widget.offer != null) {
@@ -95,12 +97,15 @@ class _CallScreenState extends State<CallScreen> {
       });
 
       // set SDP offer as remoteDescription for peerConnection
+      print(widget.offer);
       await _rtcPeerConnection!.setRemoteDescription(
         RTCSessionDescription(widget.offer["sdp"], widget.offer["type"]),
       );
 
       // create SDP answer
       RTCSessionDescription answer = await _rtcPeerConnection!.createAnswer();
+
+      print(answer);
 
       // set SDP answer as localDescription for peerConnection
       _rtcPeerConnection!.setLocalDescription(answer);
