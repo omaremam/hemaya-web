@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import '../services/signalling.service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CallScreen extends StatefulWidget {
   final String callerId, calleeId;
@@ -55,6 +56,18 @@ class _CallScreenState extends State<CallScreen> {
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
+    }
+  }
+
+  Future<void> _openMaps() async {
+    final url =
+        'https://www.google.com/maps/search/?api=1&query=${widget.lat},${widget.long}';
+    // ignore: deprecated_member_use
+    if (await canLaunch(url)) {
+      // ignore: deprecated_member_use
+      await launch(url);
+    } else {
+      throw 'Could not open maps.';
     }
   }
 
@@ -200,7 +213,12 @@ class _CallScreenState extends State<CallScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [Text("Longitude"), Text("${widget.long}")],
-                  )
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        _openMaps();
+                      },
+                      child: Text("View Location"))
                 ],
               ),
             )
