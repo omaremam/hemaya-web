@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:hemayaweb/screens/join_screen.dart';
 import '../services/signalling.service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -126,6 +127,7 @@ class _CallScreenState extends State<CallScreen> {
       // send SDP answer to remote peer over signalling
       socket!.emit("answerCall", {
         "callerId": widget.callerId,
+        "userId": widget.calleeId,
         "sdpAnswer": answer.toMap(),
       });
     }
@@ -218,7 +220,19 @@ class _CallScreenState extends State<CallScreen> {
                       onPressed: () {
                         _openMaps();
                       },
-                      child: Text("View Location"))
+                      child: Text("View Location")),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => JoinScreen(
+                              selfCallerId: "1234",
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text("End call")),
                 ],
               ),
             )

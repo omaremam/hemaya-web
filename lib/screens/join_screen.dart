@@ -18,6 +18,12 @@ class _JoinScreenState extends State<JoinScreen> {
   final remoteCallerIdTextEditingController = TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+    incomingSDPOffer = null;
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -32,15 +38,6 @@ class _JoinScreenState extends State<JoinScreen> {
         // set SDP Offer of incoming call
         setState(() {
           incomingSDPOffer = data;
-          print("Data ${incomingSDPOffer["sdpOffer"]}");
-          if (incomingSDPOffer != null) {
-            _joinCall(
-                callerId: incomingSDPOffer["callerId"]!,
-                offer: incomingSDPOffer["sdpOffer"],
-                name: incomingSDPOffer["name"],
-                latitude: incomingSDPOffer["lat"],
-                longitude: incomingSDPOffer["long"]);
-          }
         });
       }
     });
@@ -76,15 +73,43 @@ class _JoinScreenState extends State<JoinScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Hemaya Stream Viewer"),
+        title: const Text("Hemaya Server"),
       ),
       body: SafeArea(
         child: Stack(
           children: [
-            if (incomingSDPOffer == null)
+            if (incomingSDPOffer != null)
               Center(
-                child: Text("No incoming streams"),
-              )
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Incoming Call",
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.call_end),
+                      color: Colors.redAccent,
+                      onPressed: () {
+                        setState(() => incomingSDPOffer = null);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.call),
+                      color: Colors.greenAccent,
+                      onPressed: () {
+                        _joinCall(
+                            callerId: incomingSDPOffer["callerId"]!,
+                            offer: incomingSDPOffer["sdpOffer"],
+                            name: incomingSDPOffer["name"],
+                            latitude: incomingSDPOffer["lat"],
+                            longitude: incomingSDPOffer["long"]);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            if (incomingSDPOffer == null)
+              Center(child: Text("No incoming calls"))
           ],
         ),
       ),
