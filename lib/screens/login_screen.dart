@@ -50,12 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF009F98),
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: 400,maxHeight: 600),
           child: Card(
-            color: Colors.lightBlueAccent, // Set the background color here
+            color: Colors.white, // Set the background color here
             elevation: 3, // Add elevation for a subtle shadow
             margin: const EdgeInsets.all(16.0),
             child: Padding(
@@ -83,12 +83,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Email',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Color(0xFF009F98)),
                       ),
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color(
+                                0xFF009F98)), // Set the color when not in focus
+                      ),
+                      labelStyle: TextStyle(color: Color(0xFF009F98)),
+                      hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
-                    cursorColor: Colors.white,
+                    cursorColor: Color(0xFF009F98),
                   ),
                   const SizedBox(height: 12),
                   TextField(
@@ -97,20 +102,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Password',
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Color(0xFF009F98)),
                       ),
-                      labelStyle: TextStyle(color: Colors.white),
-                      hintStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color(
+                                0xFF009F98)), // Set the color when not in focus
+                      ),
+                      labelStyle: TextStyle(color: Color(0xFF009F98)),
+                      hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
-                    cursorColor: Colors.white,
+                    cursorColor: Color(0xFF009F98),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, // Background color
-                      foregroundColor: Colors.lightBlueAccent, // Text color
+                      backgroundColor: Color(0xFF009F98), // Background color
+                      foregroundColor: Colors.white, // Text color
                     ),
                     child: const Text('Login'),
                   ),
