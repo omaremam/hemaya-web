@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hemayaweb/screens/login_screen.dart';
-import 'screens/join_screen.dart';
 import 'services/signalling.service.dart';
 
 void main() {
