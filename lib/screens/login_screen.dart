@@ -94,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
                     cursorColor: Color(0xFF009F98),
+                    style: TextStyle(color:Color(0xFF009F98)),
                   ),
                   const SizedBox(height: 12),
                   TextField(
@@ -113,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
                     cursorColor: Color(0xFF009F98),
+                    style: TextStyle(color:Color(0xFF009F98)),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
