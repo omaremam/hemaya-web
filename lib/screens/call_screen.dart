@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:hemayaweb/screens/join_screen.dart';
+import 'package:hemayaweb/widgets/after_call_card.dart';
 import '../services/signalling.service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,6 +41,8 @@ class _CallScreenState extends State<CallScreen> {
 
   // list of rtcCandidates to be sent over signalling
   List<RTCIceCandidate> rtcIceCadidates = [];
+
+  bool isCardVisible = false;
 
   @override
   void initState() {
@@ -176,6 +179,14 @@ class _CallScreenState extends State<CallScreen> {
 
   _leaveCall() {
     Navigator.pop(context);
+
+    // Set the state to show the new card component
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        isCardVisible =
+            true; // Assuming isCardVisible is a boolean variable in your state
+      });
+    });
   }
 
   @override
@@ -223,11 +234,12 @@ class _CallScreenState extends State<CallScreen> {
                       child: Text("View Location")),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (_) => JoinScreen(
                               selfCallerId: "1234",
+                              isCardVisible: true,
                             ),
                           ),
                         );
@@ -235,7 +247,17 @@ class _CallScreenState extends State<CallScreen> {
                       child: Text("End call")),
                 ],
               ),
-            )
+            ),
+            if (isCardVisible)
+              AfterCallWidget(
+                // customize as needed
+                onButton1Pressed: () {
+                  // handle button 1 press
+                },
+                onButton2Pressed: () {
+                  // handle button 2 press
+                },
+              ),
           ],
         ),
       ),

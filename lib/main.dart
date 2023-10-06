@@ -31,7 +31,7 @@ class VideoCallApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: const ColorScheme.dark(),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       home: const LoginScreen(),
     );
   }
