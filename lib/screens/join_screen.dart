@@ -1,13 +1,17 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:hemayaweb/widgets/after_call_card.dart';
 import 'call_screen.dart';
 import '../services/signalling.service.dart';
 
 class JoinScreen extends StatefulWidget {
   final String selfCallerId;
 
-  const JoinScreen({super.key, required this.selfCallerId});
+  final bool isCardVisible;
+
+  const JoinScreen(
+      {super.key, required this.selfCallerId, required this.isCardVisible});
 
   @override
   State<JoinScreen> createState() => _JoinScreenState();
@@ -15,8 +19,8 @@ class JoinScreen extends StatefulWidget {
 
 class _JoinScreenState extends State<JoinScreen> {
   dynamic incomingSDPOffer;
+  bool isCardVisible = false;
   final remoteCallerIdTextEditingController = TextEditingController();
-
   @override
   void dispose() {
     super.dispose();
@@ -26,7 +30,7 @@ class _JoinScreenState extends State<JoinScreen> {
   @override
   void initState() {
     super.initState();
-
+    isCardVisible = widget.isCardVisible;
     print("Incoming sdp offer");
     print(incomingSDPOffer);
 
@@ -52,7 +56,7 @@ class _JoinScreenState extends State<JoinScreen> {
     dynamic offer,
   }) {
     print("look here ${callerId} ${offer} ${latitude} ${longitude}");
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => CallScreen(
@@ -70,7 +74,6 @@ class _JoinScreenState extends State<JoinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Hemaya Server"),
@@ -109,7 +112,27 @@ class _JoinScreenState extends State<JoinScreen> {
                 ),
               ),
             if (incomingSDPOffer == null)
-              Center(child: Text("No incoming calls"))
+              Center(child: Text("No incoming calls")),
+            if (isCardVisible)
+              Positioned.fill(
+                child: Center(
+                  child: AfterCallWidget(
+                    // customize as needed
+                    onButton1Pressed: () {
+                      // handle button 1 press
+                      setState(() {
+                        isCardVisible = false;
+                      });
+                    },
+                    onButton2Pressed: () {
+                      // handle button 2 press
+                      setState(() {
+                        isCardVisible = false;
+                      });
+                    },
+                  ),
+                ),
+              ),
           ],
         ),
       ),

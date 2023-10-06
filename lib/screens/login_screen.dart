@@ -39,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(
           builder: (_) => const JoinScreen(
             selfCallerId: "1234",
+            isCardVisible: false,
           ),
         ),
       );
