@@ -56,6 +56,12 @@ class _CallScreenState extends State<CallScreen> {
     super.initState();
   }
 
+  void onToggleSwitch() {
+    // dispose();
+    isCardVisible = false;
+    print("Toggle switch call screen");
+  }
+
   @override
   void setState(fn) {
     if (mounted) {
@@ -194,71 +200,82 @@ class _CallScreenState extends State<CallScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF009F98), Color(0xFF1281AE)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
+        centerTitle: true,
         title: const Text("Hemaya Stream Viewer"),
       ),
       body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: RTCVideoView(
-                _remoteRTCVideoRenderer,
-                objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+        child: Container(
+          color: Colors.white,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: RTCVideoView(
+                  _remoteRTCVideoRenderer,
+                  objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                ),
               ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.25,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text("Name"), Text("${widget.name}")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text("Latitude"), Text("${widget.lat}")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text("Longitude"), Text("${widget.long}")],
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        _openMaps();
-                      },
-                      child: Text("View Location")),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => JoinScreen(
-                              selfCallerId: "1234",
-                              isCardVisible: true,
+              Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.25,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [Text("Name"), Text("${widget.name}")],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [Text("Latitude"), Text("${widget.lat}")],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [Text("Longitude"), Text("${widget.long}")],
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 1, backgroundColor: Color(0xFF1281AE)),
+                        onPressed: () {
+                          _openMaps();
+                        },
+                        child: Text("View Location")),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 1, backgroundColor: Color(0xFF1281AE)),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => JoinScreen(
+                                selfCallerId: "1234",
+                                isCardVisible: true,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Text("End call")),
-                ],
+                          );
+                        },
+                        child: Text("End call")),
+                  ],
+                ),
               ),
-            ),
-            if (isCardVisible)
-              AfterCallWidget(
-                // customize as needed
-                onButton1Pressed: () {
-                  // handle button 1 press
-                },
-                onButton2Pressed: () {
-                  // handle button 2 press
-                },
-              ),
-          ],
+              if (isCardVisible)
+                AfterCallWidget(
+                  switchToggle: onToggleSwitch,
+                ),
+            ],
+          ),
         ),
       ),
     );

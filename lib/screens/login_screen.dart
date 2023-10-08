@@ -51,10 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF009F98),
+      backgroundColor: const Color(0xFF009F98),
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 400,maxHeight: 600),
+          constraints: const BoxConstraints(maxWidth: 400,maxHeight: 600),
           child: Card(
             color: Colors.white, // Set the background color here
             elevation: 3, // Add elevation for a subtle shadow
@@ -94,8 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelStyle: TextStyle(color: Color(0xFF009F98)),
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
-                    cursorColor: Color(0xFF009F98),
-                    style: TextStyle(color:Color(0xFF009F98)),
+                    cursorColor: const Color(0xFF009F98),
+                    style:const TextStyle(color:Color(0xFF009F98)),
                   ),
                   const SizedBox(height: 12),
                   TextField(
@@ -114,15 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelStyle: TextStyle(color: Color(0xFF009F98)),
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
-                    cursorColor: Color(0xFF009F98),
-                    style: TextStyle(color:Color(0xFF009F98)),
+                    cursorColor:const Color(0xFF009F98),
+                    style:const TextStyle(color:Color(0xFF009F98)),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF009F98), // Background color
+                      backgroundColor:const Color(0xFF009F98), // Background color
                       foregroundColor: Colors.white, // Text color
                     ),
                     child: const Text('Login'),

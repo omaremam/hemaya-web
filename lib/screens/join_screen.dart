@@ -19,18 +19,21 @@ class JoinScreen extends StatefulWidget {
 
 class _JoinScreenState extends State<JoinScreen> {
   dynamic incomingSDPOffer;
-  bool isCardVisible = false;
+  bool toggle = false;
   final remoteCallerIdTextEditingController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
-    incomingSDPOffer = null;
+  }
+
+  onToggleSwitch() {
+    setState(() => toggle = !toggle);
   }
 
   @override
   void initState() {
     super.initState();
-    isCardVisible = widget.isCardVisible;
+    toggle = widget.isCardVisible;
     print("Incoming sdp offer");
     print(incomingSDPOffer);
 
@@ -75,6 +78,15 @@ class _JoinScreenState extends State<JoinScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF009F98), Color(0xFF1281AE)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
         centerTitle: true,
         title: const Text("Hemaya Server"),
       ),
@@ -86,7 +98,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Incoming Call",
                     ),
                     IconButton(
@@ -112,26 +124,10 @@ class _JoinScreenState extends State<JoinScreen> {
                 ),
               ),
             if (incomingSDPOffer == null)
-              Center(child: Text("No incoming calls")),
-            if (isCardVisible)
-              Positioned.fill(
-                child: Center(
-                  child: AfterCallWidget(
-                    // customize as needed
-                    onButton1Pressed: () {
-                      // handle button 1 press
-                      setState(() {
-                        isCardVisible = false;
-                      });
-                    },
-                    onButton2Pressed: () {
-                      // handle button 2 press
-                      setState(() {
-                        isCardVisible = false;
-                      });
-                    },
-                  ),
-                ),
+              const Center(child: Text("No incoming calls")),
+            if (toggle)
+              Center(
+                child: AfterCallWidget(switchToggle: onToggleSwitch),
               ),
           ],
         ),
