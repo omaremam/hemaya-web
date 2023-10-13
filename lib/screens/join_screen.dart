@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:hemayaweb/widgets/after_call_card.dart';
@@ -20,16 +19,8 @@ class JoinScreen extends StatefulWidget {
 class _JoinScreenState extends State<JoinScreen> {
   dynamic incomingSDPOffer;
   bool toggle = false;
-  final remoteCallerIdTextEditingController = TextEditingController();
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  onToggleSwitch() {
-    setState(() => toggle = !toggle);
-  }
-
+  final emailController = TextEditingController();
+  onToggleSwitch() {}
   @override
   void initState() {
     super.initState();
@@ -37,7 +28,7 @@ class _JoinScreenState extends State<JoinScreen> {
     print("Incoming sdp offer");
     print(incomingSDPOffer);
 
-    document.documentElement?.requestFullscreen();
+    // document.documentElement?.requestFullscreen();
     // listen for incoming video call
     SignallingService.instance.socket!.on("newCall", (data) {
       print(data);
@@ -50,7 +41,24 @@ class _JoinScreenState extends State<JoinScreen> {
     });
   }
 
-  // join Call
+  _callUsers() async{
+    print("callscreen");
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CallScreen(
+          callerId: "1234",
+          calleeId: emailController.text,
+          offer: null,
+          lat: 0.0,
+          long: 0.0,
+          name: emailController.text,
+          calling: true,
+        ),
+      ),
+    );
+  }
+
   _joinCall({
     required String callerId,
     required String name,
@@ -69,6 +77,7 @@ class _JoinScreenState extends State<JoinScreen> {
           lat: latitude,
           long: longitude,
           name: name,
+          calling: false,
         ),
       ),
     );
@@ -79,13 +88,15 @@ class _JoinScreenState extends State<JoinScreen> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF009F98), Color(0xFF1281AE)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          width: 100,
+          height: 40,
+          // decoration: const BoxDecoration(
+          //   gradient: LinearGradient(
+          //     colors: [Color(0xFF009F98), Color(0xFF1281AE)],
+          //     begin: Alignment.topCenter,
+          //     end: Alignment.bottomCenter,
+          //   ),
+          // ),
         ),
         centerTitle: true,
         title: const Text("Hemaya Server"),
@@ -98,9 +109,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Incoming Call",
-                    ),
+                    const Text("Incoming Call"),
                     IconButton(
                       icon: const Icon(Icons.call_end),
                       color: Colors.redAccent,
@@ -113,21 +122,65 @@ class _JoinScreenState extends State<JoinScreen> {
                       color: Colors.greenAccent,
                       onPressed: () {
                         _joinCall(
-                            callerId: incomingSDPOffer["callerId"]!,
-                            offer: incomingSDPOffer["sdpOffer"],
-                            name: incomingSDPOffer["name"],
-                            latitude: incomingSDPOffer["lat"],
-                            longitude: incomingSDPOffer["long"]);
+                          callerId: incomingSDPOffer["callerId"]!,
+                          offer: incomingSDPOffer["sdpOffer"],
+                          name: incomingSDPOffer["name"],
+                          latitude: incomingSDPOffer["lat"],
+                          longitude: incomingSDPOffer["long"],
+                        );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
             if (incomingSDPOffer == null)
-              const Center(child: Text("No incoming calls")),
+              Center(
+                child: Text("No incoming calls"),
+              ),
             if (toggle)
               Center(
                 child: AfterCallWidget(switchToggle: onToggleSwitch),
+              ),
+            if (incomingSDPOffer == null)
+              Positioned(
+                bottom: 5,
+                right: 5,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 400.0,
+                    maxHeight: 100.0,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: TextField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              hintText: "Enter email",
+                              // Add styling as needed
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.0),
+                        ElevatedButton(
+                          onPressed:() async{
+                            await _callUsers();
+                          },
+                          child: Text("Call"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Color(0xFF009F98), // Background color
+                            foregroundColor: Colors.white, // Text color
+                          ),
+                          // Add styling as needed
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
           ],
         ),

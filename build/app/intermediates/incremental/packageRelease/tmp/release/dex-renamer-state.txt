@@ -1,0 +1,4 @@
+#Thu Oct 12 00:08:29 EET 2023
+base.0=D\:\\Projects\\Hemaya\\hemaya-web\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

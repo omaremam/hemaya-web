@@ -1,0 +1,134 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.hemayaweb"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:4:5-79
+11-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:4:22-76
+12    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+12-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:5:5-79
+12-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:5:22-76
+13    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+13-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:6:5-80
+13-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:6:22-77
+14    <uses-permission
+14-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:7:5-95
+15        android:name="android.permission.BLUETOOTH"
+15-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:7:22-65
+16        android:maxSdkVersion="30" />
+16-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:7:66-92
+17    <uses-permission
+17-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:8:5-101
+18        android:name="android.permission.BLUETOOTH_ADMIN"
+18-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:8:22-71
+19        android:maxSdkVersion="30" />
+19-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:8:72-98
+20    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+20-->[com.twilio:audioswitch:1.1.7] C:\Users\abdo\.gradle\caches\transforms-3\86594bde478c356bceccdc5f92a43b0e\transformed\jetified-audioswitch-1.1.7\AndroidManifest.xml:12:5-76
+20-->[com.twilio:audioswitch:1.1.7] C:\Users\abdo\.gradle\caches\transforms-3\86594bde478c356bceccdc5f92a43b0e\transformed\jetified-audioswitch-1.1.7\AndroidManifest.xml:12:22-73
+21
+22    <permission
+22-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+23        android:name="com.example.hemayaweb.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+23-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+24        android:protectionLevel="signature" />
+24-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+25
+26    <uses-permission android:name="com.example.hemayaweb.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+26-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+26-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+27
+28    <application
+29        android:name="android.app.Application"
+29-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:12:9-42
+30        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+30-->[androidx.core:core:1.10.1] C:\Users\abdo\.gradle\caches\transforms-3\9c9ab1a476c120097a79d748cec7161f\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
+31        android:extractNativeLibs="false"
+32        android:icon="@mipmap/ic_launcher"
+32-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:13:9-43
+33        android:label="hemayaweb" >
+33-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:11:9-34
+34        <activity
+34-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:14:9-34:20
+35            android:name="com.example.hemayaweb.MainActivity"
+35-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:15:13-41
+36            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+36-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:19:13-163
+37            android:exported="true"
+37-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:16:13-36
+38            android:hardwareAccelerated="true"
+38-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:20:13-47
+39            android:launchMode="singleTop"
+39-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:17:13-43
+40            android:theme="@style/LaunchTheme"
+40-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:18:13-47
+41            android:windowSoftInputMode="adjustResize" >
+41-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:21:13-55
+42
+43            <!--
+44                 Specifies an Android theme to apply to this Activity as soon as
+45                 the Android process has started. This theme is visible to the user
+46                 while the Flutter UI initializes. After that, this theme continues
+47                 to determine the Window background behind the Flutter UI.
+48            -->
+49            <meta-data
+49-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:26:13-29:17
+50                android:name="io.flutter.embedding.android.NormalTheme"
+50-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:27:15-70
+51                android:resource="@style/NormalTheme" />
+51-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:28:15-52
+52
+53            <intent-filter>
+53-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:30:13-33:29
+54                <action android:name="android.intent.action.MAIN" />
+54-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:31:17-68
+54-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:31:25-66
+55
+56                <category android:name="android.intent.category.LAUNCHER" />
+56-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:32:17-76
+56-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:32:27-74
+57            </intent-filter>
+58        </activity>
+59        <!--
+60             Don't delete the meta-data below.
+61             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+62        -->
+63        <meta-data
+63-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:37:9-39:33
+64            android:name="flutterEmbedding"
+64-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:38:13-44
+65            android:value="2" />
+65-->D:\Projects\Hemaya\hemaya-web\android\app\src\main\AndroidManifest.xml:39:13-30
+66
+67        <activity
+67-->[:url_launcher_android] D:\Projects\Hemaya\hemaya-web\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-13:74
+68            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+68-->[:url_launcher_android] D:\Projects\Hemaya\hemaya-web\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-74
+69            android:exported="false"
+69-->[:url_launcher_android] D:\Projects\Hemaya\hemaya-web\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:12:13-37
+70            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+70-->[:url_launcher_android] D:\Projects\Hemaya\hemaya-web\build\url_launcher_android\intermediates\merged_manifest\release\AndroidManifest.xml:13:13-71
+71
+72        <uses-library
+72-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+73            android:name="androidx.window.extensions"
+73-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+74            android:required="false" />
+74-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+75        <uses-library
+75-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+76            android:name="androidx.window.sidecar"
+76-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+77            android:required="false" />
+77-->[androidx.window:window:1.0.0-beta04] C:\Users\abdo\.gradle\caches\transforms-3\dee59bb480020f42d53c2ea15e4501f7\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+78    </application>
+79
+80</manifest>
