@@ -58,6 +58,7 @@ class _CallScreenState extends State<CallScreen> {
     callOffer = widget.offer;
     // initializing renderers
     print("${widget.offer} THIS IS THE OFFER");
+    _localRTCVideoRenderer.initialize();
 
     _remoteRTCVideoRenderer.initialize();
 
@@ -113,6 +114,17 @@ class _CallScreenState extends State<CallScreen> {
       setState(() {});
     };
 
+    // get localStream
+    _localStream = await navigator.mediaDevices
+        .getUserMedia({'audio': isAudioOn, 'video': isVideoOn});
+
+    // add mediaTrack to peerConnection
+    _localStream!.getTracks().forEach((track) {
+      _rtcPeerConnection!.addTrack(track, _localStream!);
+    });
+
+    // set source for local video renderer
+    _localRTCVideoRenderer.srcObject = _localStream;
     // for Incoming call
     if (widget.offer != null && !widget.calling) {
       // listen for Remote IceCandidate
@@ -152,36 +164,6 @@ class _CallScreenState extends State<CallScreen> {
     }
     // for Outgoing Call
     else if (widget.offer == null && widget.calling) {
-      // create peer connection
-      _rtcPeerConnection = await createPeerConnection({
-        'iceServers': [
-          {
-            'urls': [
-              'stun:stun1.l.google.com:19302',
-              'stun:stun2.l.google.com:19302'
-            ]
-          }
-        ]
-      });
-
-      // listen for remotePeer mediaTrack event
-      _rtcPeerConnection!.onTrack = (event) {
-        _remoteRTCVideoRenderer.srcObject = event.streams[0];
-        setState(() {});
-      };
-
-      // get localStream
-      _localStream = await navigator.mediaDevices
-          .getUserMedia({'audio': isAudioOn, 'video': isVideoOn});
-
-      // add mediaTrack to peerConnection
-      _localStream!.getTracks().forEach((track) {
-        _rtcPeerConnection!.addTrack(track, _localStream!);
-      });
-
-      // set source for local video renderer
-      _localRTCVideoRenderer.srcObject = _localStream;
-
       // for Incoming call
       _rtcPeerConnection!.onIceCandidate =
           (RTCIceCandidate candidate) => rtcIceCadidates.add(candidate);
@@ -297,9 +279,6 @@ class _CallScreenState extends State<CallScreen> {
       track.stop();
     });
 
-    // If you want to dispose the local media stream, uncomment the following line
-    _localStream?.dispose();
-
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -339,10 +318,34 @@ class _CallScreenState extends State<CallScreen> {
                   alignment: Alignment.centerLeft,
                   width: MediaQuery.of(context).size.width * 0.7,
                   height: MediaQuery.of(context).size.height * 0.9,
-                  child: RTCVideoView(
-                    _remoteRTCVideoRenderer,
-                    objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                  ),
+                  child: Stack(children: [
+                    RTCVideoView(
+                      _remoteRTCVideoRenderer,
+                      objectFit:
+                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+                    ),
+                    Positioned(
+                      right: 20,
+                      bottom: 20,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color(0xFF009F98),
+                          ),
+                        ),
+                        child: SizedBox(
+                          height: 200,
+                          width: 150,
+                          child: RTCVideoView(
+                            _localRTCVideoRenderer,
+                            mirror: isFrontCameraSelected,
+                            objectFit: RTCVideoViewObjectFit
+                                .RTCVideoViewObjectFitCover,
+                          ),
+                        ),
+                      ),
+                    )
+                  ]),
                 ),
               if (widget.offer != null || callOffer != null)
                 Container(
@@ -397,6 +400,7 @@ class _CallScreenState extends State<CallScreen> {
 
   @override
   void dispose() {
+    _localRTCVideoRenderer.dispose();
     _remoteRTCVideoRenderer.dispose();
     _localStream?.dispose();
     _rtcPeerConnection?.dispose();
