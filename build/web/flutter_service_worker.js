@@ -48,7 +48,7 @@ const RESOURCES = {".idea/workspace.xml": "cc5f609be0f96835c87839f62217d14b",
 "build/web/assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "build/web/assets/NOTICES": "65927a9256022709295bd07d61a17fc5",
 "build/web/index.html": "021d104284ac45e3bedc305b86b3ef61",
-"/": "5d8178d8d17fe88a3ab3bdfd1372810b",
+"/": "86d140195f7b14e08b8fd05d86a38221",
 "build/web/icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "build/web/icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "build/web/icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
@@ -78,8 +78,8 @@ const RESOURCES = {".idea/workspace.xml": "cc5f609be0f96835c87839f62217d14b",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "manifest.json": "78c213ea90c15c6d88c700a1dfdeda26",
-"index.html": "5d8178d8d17fe88a3ab3bdfd1372810b",
-"main.dart.js": "0b40706022d08a1035822dbd6a3e64c2"};
+"index.html": "86d140195f7b14e08b8fd05d86a38221",
+"main.dart.js": "9bf417afc2abff2ff25ac092455e3f69"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
