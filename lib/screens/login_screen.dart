@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color(0xFF009F98),
       body: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 400,maxHeight: 600),
+          constraints: const BoxConstraints(maxWidth: 400, maxHeight: 600),
           child: Card(
             color: Colors.white, // Set the background color here
             elevation: 3, // Add elevation for a subtle shadow
@@ -65,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize
                     .min, // Use min to make the card only as big as its children
                 children: [
-                  Image.asset(
-                    '../../assets/hemaya.png', // Replace with your actual image file path
+                  Image.network(
+                    'https://firebasestorage.googleapis.com/v0/b/hemaya-860b8.appspot.com/o/hemaya.png?alt=media&token=1b098d8d-4c1a-4c4c-9710-40966c5ec534', // Replace with your actual image file path
                     height: 100, // Adjust the height as needed
                   ),
                   const SizedBox(height: 20),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
                     cursorColor: const Color(0xFF009F98),
-                    style:const TextStyle(color:Color(0xFF009F98)),
+                    style: const TextStyle(color: Color(0xFF009F98)),
                   ),
                   const SizedBox(height: 12),
                   TextField(
@@ -114,15 +114,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelStyle: TextStyle(color: Color(0xFF009F98)),
                       hintStyle: TextStyle(color: Color(0xFF009F98)),
                     ),
-                    cursorColor:const Color(0xFF009F98),
-                    style:const TextStyle(color:Color(0xFF009F98)),
+                    cursorColor: const Color(0xFF009F98),
+                    style: const TextStyle(color: Color(0xFF009F98)),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:const Color(0xFF009F98), // Background color
+                      backgroundColor:
+                          const Color(0xFF009F98), // Background color
                       foregroundColor: Colors.white, // Text color
                     ),
                     child: const Text('Login'),
