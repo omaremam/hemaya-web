@@ -284,13 +284,23 @@ class _CallScreenState extends State<CallScreen> {
                 GestureDetector(
                   onTapDown: (TapDownDetails details) {
                     setState(() {
-                      rectangles.add(Rect.fromCenter(
-                        center: details.localPosition,
-                        width:
-                            200, // Adjust the width of the rectangle as needed
-                        height:
-                            200, // Adjust the height of the rectangle as needed
-                      ));
+                      if (rectangles.length > 0) {
+                        rectangles.replaceRange(0, 1, [
+                          Rect.fromCenter(
+                            center: details.localPosition,
+                            width: 200,
+                            height: 200,
+                          ),
+                        ]);
+                      } else {
+                        rectangles.add(Rect.fromCenter(
+                          center: details.localPosition,
+                          width:
+                              200, // Adjust the width of the rectangle as needed
+                          height:
+                              200, // Adjust the height of the rectangle as needed
+                        ));
+                      }
                     });
                   },
                   child: Container(
@@ -306,7 +316,13 @@ class _CallScreenState extends State<CallScreen> {
                                 .RTCVideoViewObjectFitCover,
                           ),
                           CustomPaint(
-                            painter: RectanglePainter(rectangles: rectangles),
+                            painter: RectanglePainter(
+                              rectangles: rectangles,
+                              texts: [
+                                "Name: Seif Mohamed",
+                                "National Id: 295123910231093"
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -397,11 +413,17 @@ class _CallScreenState extends State<CallScreen> {
 
 class RectanglePainter extends CustomPainter {
   final List<Rect> rectangles;
+  final List<String> texts;
 
-  RectanglePainter({required this.rectangles});
+  RectanglePainter({required this.rectangles, required this.texts});
 
   @override
   void paint(Canvas canvas, Size size) {
+    _drawRectangles(canvas);
+    _drawTexts(canvas);
+  }
+
+  void _drawRectangles(Canvas canvas) {
     final Paint paint = Paint()
       ..color = Colors.blue
       ..style = PaintingStyle.stroke
@@ -409,6 +431,35 @@ class RectanglePainter extends CustomPainter {
 
     for (var rectangle in rectangles) {
       canvas.drawRect(rectangle, paint);
+    }
+  }
+
+  void _drawTexts(Canvas canvas) {
+    final TextStyle textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 12.0,
+    );
+
+    for (int i = 0; i < rectangles.length && i < texts.length; i++) {
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: "${texts[i]}\n${texts[i + 1]}",
+          style: textStyle,
+        ),
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr,
+      );
+
+      textPainter.layout();
+
+      final textX = rectangles[i].left; // Adjust this if needed
+      final textY =
+          rectangles[i].bottom - textPainter.height; // Adjust this if needed
+
+      textPainter.paint(
+        canvas,
+        Offset(textX, textY),
+      );
     }
   }
 
