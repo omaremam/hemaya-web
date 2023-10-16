@@ -1,8 +1,10 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hemayaweb/widgets/after_call_card.dart';
 import 'call_screen.dart';
 import '../services/signalling.service.dart';
+import 'package:http/http.dart' as http;
 
 class JoinScreen extends StatefulWidget {
   final String selfCallerId;
@@ -41,14 +43,16 @@ class _JoinScreenState extends State<JoinScreen> {
     });
   }
 
-  _callUsers() async{
+  _callUsers() async {
+    dynamic callee = await validateCallee(emailController.text);
+    print('CALEEEEEEEEEEEEEEEEEEEEEEEEE');
     print("callscreen");
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => CallScreen(
           callerId: "1234",
-          calleeId: emailController.text,
+          calleeId: callee['call_key'],
           offer: null,
           lat: 0.0,
           long: 0.0,
@@ -81,6 +85,37 @@ class _JoinScreenState extends State<JoinScreen> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> validateCallee(email) async {
+    final url = Uri.parse(
+        "http://13.36.63.83:5956/validateMobileCall"); // Replace with the actual URL
+
+    var data = {
+      'callerId': 1234,
+      'calleeEmail': email,
+    };
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var reqBody = jsonEncode(data);
+    print("HERE");
+
+    final response = await http.post(url, body: reqBody, headers: headers);
+
+    print("THERE");
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      // User registered successfully
+      return jsonDecode(response.body);
+    } else {
+      // Registration failed or other error
+      return null;
+    }
   }
 
   @override
@@ -166,7 +201,7 @@ class _JoinScreenState extends State<JoinScreen> {
                         ),
                         SizedBox(width: 16.0),
                         ElevatedButton(
-                          onPressed:() async{
+                          onPressed: () async {
                             await _callUsers();
                           },
                           child: Text("Call"),

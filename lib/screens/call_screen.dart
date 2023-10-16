@@ -42,6 +42,8 @@ class _CallScreenState extends State<CallScreen> {
   // mediaStream for localPeer
   MediaStream? _localStream;
 
+  List<Rect> rectangles = [];
+
   // RTC peer connection
   RTCPeerConnection? _rtcPeerConnection;
 
@@ -59,7 +61,6 @@ class _CallScreenState extends State<CallScreen> {
     // initializing renderers
     print("${widget.offer} THIS IS THE OFFER");
     _localRTCVideoRenderer.initialize();
-
     _remoteRTCVideoRenderer.initialize();
 
     // setup Peer Connection
@@ -127,6 +128,8 @@ class _CallScreenState extends State<CallScreen> {
     _localRTCVideoRenderer.srcObject = _localStream;
     // for Incoming call
     if (widget.offer != null && !widget.calling) {
+      print("I have an offer");
+
       // listen for Remote IceCandidate
       socket!.on("IceCandidate", (data) {
         String candidate = data["iceCandidate"]["candidate"];
@@ -149,16 +152,17 @@ class _CallScreenState extends State<CallScreen> {
 
       // create SDP answer
       RTCSessionDescription answer = await _rtcPeerConnection!.createAnswer();
-
+      print("Offer Answer:");
       print(answer);
 
       // set SDP answer as localDescription for peerConnection
       _rtcPeerConnection!.setLocalDescription(answer);
-
+      print('2');
+      print(_rtcPeerConnection);
       // send SDP answer to remote peer over signalling
       socket!.emit("answerCall", {
         "callerId": widget.callerId,
-        "userId": widget.calleeId,
+        "calleeId": widget.calleeId,
         "sdpAnswer": answer.toMap(),
       });
     }
@@ -168,8 +172,12 @@ class _CallScreenState extends State<CallScreen> {
       _rtcPeerConnection!.onIceCandidate =
           (RTCIceCandidate candidate) => rtcIceCadidates.add(candidate);
 
+      print('!' * 50);
       // when call is accepted by remote peer
       socket!.on("callAnswered", (data) async {
+        print("Im in call answered");
+        print(data["sdpAnswer"]["sdp"]);
+        print(data["sdpAnswer"]["type"]);
         // set SDP answer as remoteDescription for peerConnection
         await _rtcPeerConnection!.setRemoteDescription(
           RTCSessionDescription(
@@ -180,6 +188,7 @@ class _CallScreenState extends State<CallScreen> {
 
         // send iceCandidate generated to remote peer over signalling
         for (RTCIceCandidate candidate in rtcIceCadidates) {
+          print("YOOOOOO" + widget.calleeId);
           socket!.emit("IceCandidate", {
             "calleeId": widget.calleeId,
             "iceCandidate": {
@@ -204,51 +213,9 @@ class _CallScreenState extends State<CallScreen> {
       socket!.emit('makeMobileCall', {
         "callerId": widget.callerId,
         "sdpOffer": offer.toMap(),
-        "calleeEmail": widget.calleeId,
+        "calleeEmail": widget.name,
       });
     }
-  }
-
-  _startMobileCall(String calleeEmail) async {
-    // Listen for local iceCandidate and add it to the list of IceCandidate
-    _rtcPeerConnection!.onIceCandidate =
-        (RTCIceCandidate candidate) => rtcIceCadidates.add(candidate);
-
-    // when call is accepted by the remote peer
-    socket!.on("callAnswered", (data) async {
-      // set SDP answer as remoteDescription for peerConnection
-      await _rtcPeerConnection!.setRemoteDescription(
-        RTCSessionDescription(
-          data["sdpAnswer"]["sdp"],
-          data["sdpAnswer"]["type"],
-        ),
-      );
-
-      // send iceCandidate generated to the remote peer over signalling
-      for (RTCIceCandidate candidate in rtcIceCadidates) {
-        socket!.emit("IceCandidate", {
-          "calleeId": calleeEmail,
-          "iceCandidate": {
-            "id": candidate.sdpMid,
-            "label": candidate.sdpMLineIndex,
-            "candidate": candidate.candidate
-          }
-        });
-      }
-    });
-
-    // Now, you want to initiate a call to the mobile app user
-    RTCSessionDescription offer = await _rtcPeerConnection!.createOffer();
-
-    // set SDP offer as localDescription for peerConnection
-    await _rtcPeerConnection!.setLocalDescription(offer);
-
-    // make a call to the mobile app user over signalling
-    socket!.emit('makeMobileCall', {
-      "calleeEmail": calleeEmail,
-      "sdpOffer": offer.toMap(),
-      "callerId": widget.callerId,
-    });
   }
 
   _leaveCall() {
@@ -314,38 +281,58 @@ class _CallScreenState extends State<CallScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (widget.offer != null || callOffer != null)
-                Container(
-                  alignment: Alignment.centerLeft,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.9,
-                  child: Stack(children: [
-                    RTCVideoView(
-                      _remoteRTCVideoRenderer,
-                      objectFit:
-                          RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-                    ),
-                    Positioned(
-                      right: 20,
-                      bottom: 20,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color(0xFF009F98),
-                          ),
-                        ),
-                        child: SizedBox(
-                          height: 200,
-                          width: 150,
-                          child: RTCVideoView(
-                            _localRTCVideoRenderer,
-                            mirror: isFrontCameraSelected,
+                GestureDetector(
+                  onTapDown: (TapDownDetails details) {
+                    setState(() {
+                      rectangles.add(Rect.fromCenter(
+                        center: details.localPosition,
+                        width:
+                            200, // Adjust the width of the rectangle as needed
+                        height:
+                            200, // Adjust the height of the rectangle as needed
+                      ));
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: Stack(children: [
+                      Stack(
+                        children: [
+                          RTCVideoView(
+                            _remoteRTCVideoRenderer,
                             objectFit: RTCVideoViewObjectFit
                                 .RTCVideoViewObjectFitCover,
                           ),
-                        ),
+                          CustomPaint(
+                            painter: RectanglePainter(rectangles: rectangles),
+                          ),
+                        ],
                       ),
-                    )
-                  ]),
+                      Positioned(
+                        right: 20,
+                        bottom: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xFF009F98),
+                            ),
+                          ),
+                          child: SizedBox(
+                            height: 200,
+                            width: 150,
+                            child: RTCVideoView(
+                              _localRTCVideoRenderer,
+                              mirror: isFrontCameraSelected,
+                              objectFit: RTCVideoViewObjectFit
+                                  .RTCVideoViewObjectFitCover,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
                 ),
               if (widget.offer != null || callOffer != null)
                 Container(
@@ -405,5 +392,28 @@ class _CallScreenState extends State<CallScreen> {
     _localStream?.dispose();
     _rtcPeerConnection?.dispose();
     super.dispose();
+  }
+}
+
+class RectanglePainter extends CustomPainter {
+  final List<Rect> rectangles;
+
+  RectanglePainter({required this.rectangles});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    for (var rectangle in rectangles) {
+      canvas.drawRect(rectangle, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
